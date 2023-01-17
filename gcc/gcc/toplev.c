@@ -1123,10 +1123,6 @@ general_init (const char *argv0)
   /* Unlock the stdio streams.  */
   unlock_std_streams ();
 
-#ifdef WITH_HIGHTEC
-#ifdef WITH_LICENSER
-  set_htc_licenser (argv0, progname);
-#endif
   init_locale_dir (getenv ("GCC_EXEC_PREFIX"), true);
   gcc_init_libintl (htc_opt_error_numbers);
 #else

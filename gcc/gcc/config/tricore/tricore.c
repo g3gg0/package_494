@@ -4503,11 +4503,6 @@ tric_init_once (void)
 static void
 tric_option_override (void)
 {
-#ifdef WITH_LICENSER
-  /* The licenser is included so we should do the required licensing check. */
-  do_htc_license_check ();
-#endif
-
   if (NULL == tric_opt_segment_trap)
     tric_decode_msegment_trap ("default", "");
 
