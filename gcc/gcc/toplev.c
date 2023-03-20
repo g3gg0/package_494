@@ -1124,6 +1124,7 @@ general_init (const char *argv0)
   unlock_std_streams ();
 
   init_locale_dir (getenv ("GCC_EXEC_PREFIX"), true);
+#ifdef WITH_HIGHTEC
   gcc_init_libintl (htc_opt_error_numbers);
 #else
   gcc_init_libintl (false);
