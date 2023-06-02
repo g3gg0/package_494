@@ -16,7 +16,7 @@ export http_proxy=http://host.docker.internal:8080
 export https_proxy=http://host.docker.internal:8080
 
 
-apk update && apk add bash pcre-dev glib libgcc libc6-compat pixman gcc make automake autoconf flex git python3 ninja musl-dev linux-headers glib-dev meson pixman-dev openjdk8 g++
+apk update && apk add bash pcre-dev glib libgcc libc6-compat pixman gcc make automake autoconf flex git python3 ninja musl-dev linux-headers glib-dev meson pixman-dev openjdk8 g++ texinfo
 apk add --no-cache --upgrade grep
 
 apt-get update && apt-get install build-essential git flex file texinfo
@@ -47,7 +47,8 @@ export TARGET=tricore
 cd ${BUILDROOT}/${PACKAGE}/binutils
 mkdir build_dir
 cd build_dir
-../configure --prefix=$PREFIX --target=$TARGET --enable-lto --with-sysroot --disable-nls --disable-werror
+# needed for older GCC, GCC 10+ defaults to -fno-common
+CLFAGS=-fcommon ../configure --prefix=$PREFIX --target=$TARGET --enable-lto --with-sysroot --disable-nls --disable-werror
 make || exit
 make install
 
@@ -55,7 +56,7 @@ make install
 cd ${BUILDROOT}/${PACKAGE}/gcc
 mkdir build_dir
 cd build_dir
-../configure --prefix=$PREFIX --target=$TARGET --enable-lto --enable-languages=c --without-headers --with-newlib --enable-interwork --enable-multilib --disable-shared --disable-thread
+../configure --prefix=$PREFIX --target=$TARGET --enable-lto --enable-languages=c --without-headers --with-newlib --enable-interwork --enable-multilib --disable-shared --disable-thread --disable-zlib
 make all-gcc || exit
 make install-gcc
 
@@ -71,7 +72,7 @@ make install
 cd ${BUILDROOT}/${PACKAGE}/gcc 
 mkdir build_dir
 cd build_dir
-../configure --prefix=$PREFIX --target=$TARGET --enable-lto --enable-languages=c,c++ --with-newlib --enable-interwork --enable-multilib --disable-shared --disable-thread
+../configure --prefix=$PREFIX --target=$TARGET --enable-lto --enable-languages=c,c++ --with-newlib --enable-interwork --enable-multilib --disable-shared --disable-thread --disable-zlib
 make || exit
 make install
 ```
